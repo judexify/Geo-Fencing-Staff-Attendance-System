@@ -8,7 +8,7 @@ The initial development phase will focus on building a functional frontend that 
 
 Google Sheets will serve as a temporary data store during this phase, supporting both read and write operations. Data access will be handled through server-side functionality within Next.js to keep external service credentials out of the browser.
 
-The application will follow a **hybrid feature-based architecture**, organizing business functionality into independent features while maintaining shared technical layers for reusable components, utilities and infrastructure.
+The application will follow a **layer-based architecture**, organizing code according to technical responsibilities such as components, hooks, services, types, utilities and infrastructure.
 
 The initial application will use simulated authentication with predefined test accounts representing Employee, Manager and Admin roles.
 
@@ -24,7 +24,7 @@ The architecture will allow the temporary Google Sheets integration and simulate
 | UI                        | React components         |
 | Temporary data store      | Google Sheets            |
 | Server-side functionality | Next.js Route Handlers   |
-| Data access               | Feature services         |
+| Data access               | Service layer            |
 | Authentication            | Simulated authentication |
 | Version control           | Git                      |
 
@@ -32,24 +32,26 @@ Additional libraries will be selected when their specific requirements arise.
 
 ## 3. Architectural Approach
 
-The application will use a hybrid feature-based architecture.
+The application will follow a layer-based architecture.
 
-Business functionality will be grouped into independent features, while shared resources will be maintained in common directories.
+Code will be organized according to its technical responsibility rather than being grouped primarily by business feature.
 
-The main features are:
+The main layers will include:
 
-- Employees
-- Attendance
-- Shifts
-- Emergency Leave
+- **Presentation layer:** Components and UI elements.
+- **Hooks layer:** Reusable React logic and state management.
+- **Services layer:** Application operations and data access coordination.
+- **Types layer:** TypeScript definitions and interfaces.
+- **Utilities layer:** Reusable helper functions.
+- **Infrastructure layer:** External integrations and shared application configuration.
 
-Each feature may contain its own components, hooks, services, types and utilities, depending on its requirements.
+Related files may be grouped into subdirectories within each layer where necessary.
 
-Shared components, infrastructure, types and utilities will be maintained outside individual features when they serve multiple parts of the application.
+This approach allows new functionality to be introduced progressively without requiring the creation of predefined feature directories.
 
 ## 4. High-Level Architecture
 
-The application will follow these logical layers:
+The application will follow these logical responsibilities:
 
 ### 4.1 Presentation Layer
 
@@ -59,33 +61,45 @@ Includes:
 
 - Next.js pages and layouts.
 - Shared UI components.
-- Feature-specific components.
-- Client-side state and interactions.
+- Application-specific components.
+- Client-side interactions.
 
-### 4.2 Application / Feature Layer
+### 4.2 Application Logic Layer
 
-Responsible for coordinating feature-specific functionality.
-
-Includes:
-
-- Employee management.
-- Attendance operations.
-- Shift management.
-- Emergency leave workflows.
-- Feature-specific hooks and business rules.
-
-### 4.3 Data Access Layer
-
-Responsible for handling data operations.
+Responsible for coordinating application functionality.
 
 Includes:
 
-- Feature service functions.
-- Communication with the Google Sheets integration.
-- Data retrieval and persistence.
-- Data transformation and validation.
+- Custom React hooks.
+- Application state management.
+- Reusable business logic.
+- Role-based interface behaviour.
 
-### 4.4 Temporary Data Store
+### 4.3 Service Layer
+
+Responsible for application operations and coordinating data access.
+
+Includes:
+
+- Employee services.
+- Attendance services.
+- Shift services.
+- Leave services.
+
+Services will provide a consistent interface for the rest of the application without exposing the underlying data source.
+
+### 4.4 Data Access and Infrastructure Layer
+
+Responsible for communicating with external data sources and providing shared infrastructure.
+
+Includes:
+
+- Google Sheets integration.
+- Server-side configuration.
+- External service credentials.
+- Shared application utilities.
+
+### 4.5 Temporary Data Store
 
 Google Sheets will temporarily store application data, including:
 
@@ -109,7 +123,7 @@ They will handle requests such as:
 - Submitting emergency leave requests.
 - Approving or rejecting leave requests.
 
-Route Handlers will delegate data operations to the appropriate feature services rather than containing all business logic themselves.
+Route Handlers will delegate application operations to the appropriate service functions rather than containing all business logic themselves.
 
 Server Components may be used for initial server-side data fetching, while Client Components will handle interactive functionality.
 
@@ -139,7 +153,7 @@ Google Sheets will serve as the temporary data store.
 
 The application will support both reading and writing data through Next.js server-side functionality.
 
-Feature services will abstract the data source so that UI components do not communicate directly with Google Sheets.
+Services will abstract the data source so that UI components do not communicate directly with Google Sheets.
 
 The data-access implementation should be replaceable without requiring major changes to the presentation layer.
 
@@ -186,35 +200,36 @@ src/
 │   ├── (auth)/
 │   ├── (dashboard)/
 │   └── api/
-│
-├── features/
-│   ├── employees/
-│   │   ├── components/
-│   │   ├── hooks/
-│   │   ├── services/
-│   │   ├── types/
-│   │   └── utils/
-│   │
-│   ├── attendance/
-│   │   ├── components/
-│   │   ├── hooks/
-│   │   ├── services/
-│   │   ├── types/
-│   │   └── utils/
-│   │
-│   ├── shifts/
-│   └── leave/
+│       ├── employees/
+│       ├── attendance/
+│       ├── shifts/
+│       └── leave/
 │
 ├── components/
 │   ├── ui/
-│   └── layout/
+│   ├── layout/
+│   ├── employees/
+│   ├── attendance/
+│   ├── shifts/
+│   └── leave/
 │
-├── lib/
+├── hooks/
+│   ├── useEmployees.ts
+│   ├── useAttendance.ts
+│   └── ...
+│
+├── services/
+│   ├── employeeService.ts
+│   ├── attendanceService.ts
+│   ├── shiftService.ts
+│   └── leaveService.ts
+│
 ├── types/
+├── lib/
 └── utils/
 ```
 
-This structure is a starting point. Folders will be created when the corresponding functionality requires them.
+Folders will be created when the corresponding functionality requires them. The structure may evolve as the application grows.
 
 ## 11. Scope and Constraints
 

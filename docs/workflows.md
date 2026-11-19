@@ -1,67 +1,81 @@
-# System Workflows
+# System Requirements
 
-## 1. Employee Workflow
+## 1. Actors and Responsibilities
 
-### Account Setup
+### Employee
 
-- Employee receives an account or registration details.
-- Employee sets up their account information.
-- Employee logs in.
+- Log in to their account.
+- Clock in and clock out within the designated premises.
+- View personal attendance records.
+- Submit emergency leave requests.
 
-### Clock-in Workflow
+### Manager
 
-1. Employee logs in.
-2. Employee requests to clock in.
-3. System requests location permission.
-4. System retrieves the employee's current location.
-5. System validates the location against the club's geofence.
-6. If the employee is within the permitted area, attendance is recorded.
-7. Employee receives confirmation.
+- Create employee accounts.
+- Assign employees their working shifts.
+- View and analyse employee attendance records.
+- View the employee directory, including their own profile.
+- Approve or reject emergency leave requests.
+- Configure the permitted geofence radius within Admin-defined limits.
+- Clock in and clock out as an employee.
 
-### If Location Permission Is Denied
+### Admin
 
-- System informs the employee that location permission is required.
-- System provides instructions on how to enable location services.
-- Employee can retry the clock-in process.
+- Log in to the administrative dashboard.
+- View attendance records.
+- Oversee employee account management.
+- Configure system-wide attendance settings.
+- Manage geofence configurations and permitted limits.
+- Manage user roles and permissions.
 
-### If Employee Is Outside the Permitted Area
+### System
 
-- System calculates the employee's distance from the permitted geofence.
-- System displays how far the employee is from the permitted area.
-- Employee is informed that they need to move closer to the venue before clocking in.
-
-### Clock-out Workflow
-
-1. Employee requests to clock out.
-2. System retrieves the employee's current location.
-3. System validates the location against the club's geofence.
-4. Systems checks against time if its time for the specific employee
-5. If valid, the clock-out time is recorded.
-6. Employee receives confirmation.
-
-## 2. Manager Workflow
-
-1. Manager logs in.
-2. Manager can register new employees.
-3. Manager assigns employee identification details.
-4. Manager views attendance records.
-5. Manager analyses employee attendance.
-6. Manager can view the employee directory, including their own profile.
-7. Manager can approve emmergncy leave for employee
-
-## 3. Admin Workflow
-
-1. Admin logs in.
-2. Admin views attendance records.
-3. Admin manages employee accounts.
-4. Admin configures attendance settings.
-5. Admin manages the system's geofence settings.
-
-## 4. System Responsibilities
-
-- Authenticate users.
-- Retrieve and validate employee location.
+- Authenticate users and enforce role-based permissions.
+- Retrieve and validate employee locations.
 - Enforce geofence restrictions.
 - Record clock-in and clock-out timestamps.
-- Maintain attendance records.
-- Calculate attendance status based on configured rules.
+- Evaluate attendance against assigned working schedules.
+- Flag early clock-outs for management review.
+- Maintain attendance and leave records.
+- Calculate attendance statuses based on configured rules.
+
+## 2. Business Rules
+
+1. Employees must be within the designated geofence to clock in.
+2. Employees must satisfy configured location requirements when clocking out.
+3. Every employee must have an assigned working schedule.
+4. Managers create employee accounts and assign shifts.
+5. Employees may clock out before their scheduled shift ends, but the system must flag it for management.
+6. Employees can only view their personal attendance records.
+7. Managers can view attendance records but cannot modify them.
+8. Admins can view attendance records but cannot modify them.
+9. Managers can approve or reject emergency leave requests.
+10. Geofence settings are controlled by both Manager and Admin according to their respective permissions.
+11. Attendance timestamps are generated and maintained by the system.
+12. Managers can participate in employee attendance workflows.
+13. The initial system supports one registered club location.
+14. Emergency leave is the only leave category supported initially.
+
+## 3. Permission Boundaries
+
+| Operation                     | Employee    | Manager       | Admin         |
+| ----------------------------- | ----------- | ------------- | ------------- |
+| Clock in/out                  | Yes         | Yes           | Not specified |
+| Create employee accounts      | No          | Yes           | Oversight     |
+| Assign shifts                 | No          | Yes           | Not specified |
+| View attendance               | Own records | All records   | All records   |
+| Edit attendance               | No          | No            | No            |
+| Approve emergency leave       | No          | Yes           | Not specified |
+| Configure geofence            | No          | Within limits | Full control  |
+| Configure attendance settings | No          | No            | Yes           |
+| Manage roles and permissions  | No          | No            | Yes           |
+
+## 4. System Scope
+
+- Single club location.
+- Employee attendance management.
+- Geofence-based attendance validation.
+- Working shift management.
+- Emergency leave management.
+- Attendance monitoring and reporting.
+- Future hardware integration.

@@ -1,26 +1,28 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* Neutrals */
+  --color-ink: #18181b; /* primary, active nav, primary buttons */
+  --color-ink-soft: #27272a; /* primary hover */
+  --color-txt: #3f3f46; /* body text */
+  --color-txt-muted: #71717a; /* secondary text */
+  --color-txt-faint: #a1a1aa; /* meta, placeholders */
+  --color-line: #e7e7ea; /* panel and input borders */
+  --color-line-subtle: #f0f0f2; /* row dividers */
+  --color-line-strong: #d4d4d8; /* hover borders */
+  --color-canvas: #fafaf9; /* page background */
+  --color-surface: #ffffff; /* panels */
+  --color-hover: #f4f4f5; /* hover fills, neutral pills */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Status */
+  --color-late: #a16207;
+  --color-late-bg: #fef9e7;
+  --color-late-line: #f3d98b;
+  --color-absent: #b42318;
+  --color-absent-bg: #fdf1f0;
+  --color-absent-line: #e5534b;
+  --color-off: #4a7d5e;
+  --color-off-bg: #f3f8f4;
+  --color-leave: #475569;
+  --color-leave-bg: #f1f5f9;
 }
